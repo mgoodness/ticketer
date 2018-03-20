@@ -1,0 +1,17 @@
+{
+  "1": {
+    "name": "Orpheum Theatre",
+    "city": "Madison",
+    "state": "WI"
+  },
+  "2": {
+    "name": "Pabst Theater",
+    "city": "Milwaukee",
+    "state": "WI"
+  },
+  "3": {
+    "name": "Miller High Life Theatre",
+    "city": "Milwaukee",
+    "state": "WI"
+  }
+}

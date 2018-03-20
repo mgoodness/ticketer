@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package api;
+
+service VenueService {
+  rpc GetVenueInfo(GetVenueInfoRequest) returns (VenueInfo) {}
+  rpc ListVenues(ListVenuesRequest) returns (ListVenuesResponse) {}
+}
+
+message GetVenueInfoRequest {
+  string id = 1;
+}
+
+message ListVenuesRequest {}
+
+message ListVenuesResponse {
+  repeated VenueInfo venues = 1;
+}
+
+message VenueInfo {
+  string id = 1;
+  string name = 2;
+  string city = 3;
+  string state = 4;
+  /* string capacity = 5; */
+}
