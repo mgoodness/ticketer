@@ -12,10 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+syntax = "proto3";
 
-import "github.com/mgoodness/ticketer/cmd"
+package api;
 
-func main() {
-	cmd.Execute()
+service ArtistService {
+  rpc GetArtistInfo(GetArtistInfoRequest) returns (ArtistInfo) {}
+  rpc ListArtists(ListArtistsRequest) returns (ListArtistsResponse) {}
+}
+
+message GetArtistInfoRequest {
+  string id = 1;
+}
+
+message ListArtistsRequest {}
+
+message ListArtistsResponse {
+  repeated ArtistInfo artists = 1;
+}
+
+message ArtistInfo {
+  string id = 1;
+  string name = 2;
 }

@@ -23,12 +23,16 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var (
+	cfgFile    string
+	targetPort int
+	targetHost string
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "ticketer",
-	Short: "Serve and query ticket information over gRPC",
+	Use:   "tictl",
+	Short: "Query Ticketer services over gRPC",
 	Long: `Ticketer is a microservices application for demonstrating
 Cloud Native Computing Foundation projects and technologies.`,
 	// Uncomment the following line if your bare application
@@ -51,7 +55,9 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.ticketer.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tictl.yaml)")
+	rootCmd.PersistentFlags().StringVar(&targetHost, "host", "localhost", "target host")
+	rootCmd.PersistentFlags().IntVar(&targetPort, "port", 8080, "target port")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -71,9 +77,9 @@ func initConfig() {
 			os.Exit(1)
 		}
 
-		// Search config in home directory with name ".ticketer" (without extension).
+		// Search config in home directory with name ".tictl" (without extension).
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".ticketer")
+		viper.SetConfigName(".tictl")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

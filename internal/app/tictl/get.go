@@ -17,24 +17,23 @@ package cmd
 import (
 	"errors"
 
-	"github.com/mgoodness/ticketer/pkg/server"
+	"github.com/mgoodness/ticketer/pkg/client"
 	"github.com/spf13/cobra"
 )
 
-var (
-	listenPort int
-	dataFile   string
-)
-
-// serveCmd represents the serve command
-var serveCmd = &cobra.Command{
-	Use:   "serve",
-	Short: "Start a gRPC server and listen for requests",
-	Long:  "Starts a gRPC server and listens for requests.",
+// getCmd represents the get command
+var getCmd = &cobra.Command{
+	Use:   "get",
+	Short: "Get a resource over gRPC",
+	Long:  `Gets a resource over gRPC.`,
 	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 || len(args) > 1 {
-			return errors.New("exactly one resource type is required")
+		if len(args) < 2 {
+			return errors.New("a resource type and an ID must be specified")
 		}
+		if len(args) > 2 {
+			return errors.New("only a single resource type and ID must be specified")
+		}
+
 		switch args[0] {
 		default:
 			return errors.New("invalid resource type")
@@ -45,25 +44,23 @@ var serveCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		switch args[0] {
 		case "artists":
-			server.RunArtistServer(listenPort, dataFile)
+			client.GetArtistInfo(targetHost, targetPort, args[1])
 		case "venues":
-			server.RunVenueServer(listenPort, dataFile)
+			client.GetVenueInfo(targetHost, targetPort, args[1])
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(serveCmd)
+	rootCmd.AddCommand(getCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	serveCmd.PersistentFlags().StringVar(&dataFile, "filename", "", "path to data file (required)")
-	serveCmd.MarkPersistentFlagRequired("filename")
-	serveCmd.PersistentFlags().IntVar(&listenPort, "listen", 8080, "port on which to listen")
+	// getCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// serveCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

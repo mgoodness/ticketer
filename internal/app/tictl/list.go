@@ -21,20 +21,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	targetPort int
-	targetHost string
-)
-
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List resources over gRPC",
 	Long:  "Lists resources over gRPC.",
 	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 || len(args) > 1 {
-			return errors.New("exactly one resource type is required")
+		if len(args) < 1 {
+			return errors.New("a resource type must be specified")
 		}
+		if len(args) > 1 {
+			return errors.New("only a single resource type must be specified")
+		}
+
 		switch args[0] {
 		default:
 			return errors.New("invalid resource type")
@@ -59,8 +58,7 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	listCmd.PersistentFlags().StringVar(&targetHost, "host", "localhost", "target host")
-	listCmd.PersistentFlags().IntVar(&targetPort, "port", 8080, "target port")
+	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

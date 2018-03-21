@@ -34,7 +34,7 @@
     "json/scanner",
     "json/token"
   ]
-  revision = "b1738d9053e05547fce5e3111b7ed28582f70692"
+  revision = "f40e974e75af4e271d97ce0fc917af5898ae7bda"
 
 [[projects]]
   name = "github.com/inconshreveable/mousetrap"
@@ -65,6 +65,12 @@
   packages = ["."]
   revision = "acdc4509485b587f5e675510c4f2c63e90ff68a8"
   version = "v1.1.0"
+
+[[projects]]
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  revision = "c155da19408a8799da419ed3eeb0cb5db0ad5dbc"
+  version = "v1.0.5"
 
 [[projects]]
   name = "github.com/spf13/afero"
@@ -107,6 +113,12 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["ssh/terminal"]
+  revision = "80db560fac1fb3e6ac81dbc7f8ae4c061f5257bd"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -122,7 +134,10 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
-  packages = ["unix"]
+  packages = [
+    "unix",
+    "windows"
+  ]
   revision = "7ceb54c8418b8f9cdf0177b511d5cbb06e9fae39"
 
 [[projects]]
@@ -191,6 +206,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f579bf723fc332b942b228029e83e42f8be2a7ee55cccb084a80c120d98c5a83"
+  inputs-digest = "ddfcbd4e6cf574ff01dd90fd36f708fe1940a775af343ca16439f0ac9bd2a599"
   solver-name = "gps-cdcl"
   solver-version = 1
