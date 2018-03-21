@@ -17,7 +17,7 @@ package cmd
 import (
 	"errors"
 
-	"github.com/mgoodness/ticketer/pkg/venues/client"
+	"github.com/mgoodness/ticketer/pkg/client"
 	"github.com/spf13/cobra"
 )
 
@@ -32,13 +32,23 @@ var listCmd = &cobra.Command{
 	Short: "List resources over gRPC",
 	Long:  "Lists resources over gRPC.",
 	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) < 1 || len(args) > 1 || args[0] != "venues" {
-			return errors.New("exactly one valid resource type is required")
+		if len(args) < 1 || len(args) > 1 {
+			return errors.New("exactly one resource type is required")
 		}
-		return nil
+		switch args[0] {
+		default:
+			return errors.New("invalid resource type")
+		case "artists", "venues":
+			return nil
+		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		client.List(targetHost, targetPort)
+		switch args[0] {
+		case "artists":
+			client.ListArtists(targetHost, targetPort)
+		case "venues":
+			client.ListVenues(targetHost, targetPort)
+		}
 	},
 }
 

@@ -2,16 +2,19 @@
   "1": {
     "name": "Orpheum Theatre",
     "city": "Madison",
-    "state": "WI"
+    "state": "WI",
+    "capacity": 500
   },
   "2": {
     "name": "Pabst Theater",
     "city": "Milwaukee",
-    "state": "WI"
+    "state": "WI",
+    "capacity": 1000
   },
   "3": {
     "name": "Miller High Life Theatre",
     "city": "Milwaukee",
-    "state": "WI"
+    "state": "WI",
+    "capacity": 2000
   }
 }

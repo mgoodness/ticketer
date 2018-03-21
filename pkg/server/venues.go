@@ -15,20 +15,13 @@ import (
 )
 
 type venueInfo struct {
-	ID    string `json:"id,omitempty"`
-	Name  string `json:"name,omitempty"`
-	City  string `json:"city,omitempty"`
-	State string `json:"state,omitempty"`
+	ID       string `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
+	City     string `json:"city,omitempty"`
+	State    string `json:"state,omitempty"`
+	Capacity int32  `json:"capacity,omitempty"`
 }
 
-/* venueService implements VenueServiceServer as defined in the generated code:
-// Server API for VenueService service
-
-type VenueServiceServer interface {
-	GetVenueInfo(context.Context, *GetVenueInfoRequest) (*VenueInfo, error)
-	ListVenues(context.Context, *ListVenuesRequest) (*ListVenuesResponse, error)
-}
-*/
 type venueService struct {
 	venues map[string]venueInfo
 }
@@ -39,15 +32,16 @@ func (v *venueService) GetVenueInfo(ctx context.Context,
 	// lookup venue info for ID supplied in request
 	vi, ok := v.venues[r.GetId()]
 	if !ok {
-		return nil, status.Errorf(codes.NotFound, "Venue ID %s not found", r.GetId())
+		return nil, status.Errorf(codes.NotFound, "venue ID %s not found", r.GetId())
 	}
 
 	// success
 	return &api.VenueInfo{
-		Id:    r.GetId(),
-		Name:  vi.Name,
-		City:  vi.City,
-		State: vi.State,
+		Id:       r.GetId(),
+		Name:     vi.Name,
+		City:     vi.City,
+		State:    vi.State,
+		Capacity: vi.Capacity,
 	}, nil
 }
 
@@ -59,10 +53,11 @@ func (v *venueService) ListVenues(ctx context.Context,
 	// build slice with all the available venues
 	for k, v := range v.venues {
 		vi := &api.VenueInfo{
-			Id:    k,
-			Name:  v.Name,
-			City:  v.City,
-			State: v.State,
+			Id:       k,
+			Name:     v.Name,
+			City:     v.City,
+			State:    v.State,
+			Capacity: v.Capacity,
 		}
 
 		venues = append(venues, vi)
@@ -73,8 +68,9 @@ func (v *venueService) ListVenues(ctx context.Context,
 	}, nil
 }
 
-// Run the server
-func Run(listenPort int, dataFile string) {
+// RunVenueServer loads venue information from dataFile and starts a gRPC server
+// listening on listenPort
+func RunVenueServer(listenPort int, dataFile string) {
 	svc := &venueService{
 		venues: make(map[string]venueInfo),
 	}

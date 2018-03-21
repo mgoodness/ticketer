@@ -2,19 +2,15 @@
 
 all: build
 
-api/venues.pb.go: api/venues.proto
+api/api.pb.go: api/api.proto
 	@protoc -I api/ \
-		-I${GOPATH}/src \
 		--go_out=plugins=grpc:api \
-		api/venues.proto
+		api/api.proto
 
-api: api/venues.pb.go
+api: api/api.pb.go
 
-dep:
-	@dep ensure
-
-build: dep api
+build: api
 	@go build -i -v .
 
 clean:
-	@rm api/*.pb.go
+	@rm api/*.pb.go ticketer

@@ -2,6 +2,26 @@ syntax = "proto3";
 
 package api;
 
+service ArtistService {
+  rpc GetArtistInfo(GetArtistInfoRequest) returns (ArtistInfo) {}
+  rpc ListArtists(ListArtistsRequest) returns (ListArtistsResponse) {}
+}
+
+message GetArtistInfoRequest {
+  string id = 1;
+}
+
+message ListArtistsRequest {}
+
+message ListArtistsResponse {
+  repeated ArtistInfo artists = 1;
+}
+
+message ArtistInfo {
+  string id = 1;
+  string name = 2;
+}
+
 service VenueService {
   rpc GetVenueInfo(GetVenueInfoRequest) returns (VenueInfo) {}
   rpc ListVenues(ListVenuesRequest) returns (ListVenuesResponse) {}
@@ -22,5 +42,5 @@ message VenueInfo {
   string name = 2;
   string city = 3;
   string state = 4;
-  /* string capacity = 5; */
+  int32 capacity = 5;
 }
